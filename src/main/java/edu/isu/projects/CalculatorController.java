@@ -6,10 +6,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class CalculatorController implements Initializable  {
+public class CalculatorController implements Initializable {
 
 
     @FXML
@@ -20,9 +19,8 @@ public class CalculatorController implements Initializable  {
 
     char operator;
     Double number1;
-
     Double number2;
-    Double solution ;
+    Double solution;
     Double temp;
     String clearText = "";
 
@@ -30,70 +28,85 @@ public class CalculatorController implements Initializable  {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        /*
+
+         */
         dot.setOnAction(event -> {
             String value = textField.getText();
-            if(!textField.getText().contains(".")){
+            if (!textField.getText().contains(".")) {
                 textField.setText(value + dot.getText());
             }
         });
+
         clear.setOnAction(event -> textField.setText(clearText));
 
         negate.setOnAction(event -> {
-            String value = textField.getText();
-            number1 = Double.parseDouble(value);
-            number1 *= -1;
-            textField.setText(Double.toString(number1));
+            if (textField.getText().length() == 0 || textField.getText() == null) {
+                   // textField.setText("Error");
+            }
+            else {
+                String value = textField.getText();
+                number1 = Double.parseDouble(value);
+                number1 *= -1;
+                textField.setText(Double.toString(number1));
+            }
         });
 
         selectNumber(zero, one, two, three, four);
 
         selectNumber(five, six, seven, eight, nine);
 
-        selectOperator(add, minus, divide, multiply);
+        selectOperator(add, minus, divide, multiply, percent);
 
         evaluate(equal);
     }
 
+    /*
+
+     */
     private void selectNumber(Button zero, Button one, Button two, Button three, Button four) {
         zero.setOnAction(event -> {
             String value = textField.getText();
-            textField.setText(value+ zero.getText());
+            textField.setText(value + zero.getText());
         });
 
         one.setOnAction(event -> {
             String value = textField.getText();
-            textField.setText(value+ one.getText());
+            textField.setText(value + one.getText());
         });
 
         two.setOnAction(event -> {
             String value = textField.getText();
-            textField.setText(value+ two.getText());
+            textField.setText(value + two.getText());
         });
 
         three.setOnAction(event -> {
             String value = textField.getText();
-            textField.setText(value+ three.getText());
+            textField.setText(value + three.getText());
         });
 
         four.setOnAction(event -> {
             String value = textField.getText();
-            textField.setText(value+ four.getText());
+            textField.setText(value + four.getText());
         });
     }
 
-    private void selectOperator(Button add, Button minus, Button divide, Button multiply) {
+    /*
+
+     */
+    private void selectOperator(Button add, Button minus, Button divide, Button multiply, Button percent) {
         add.setOnAction(event -> {
             operator = '+';
-            if(!textField.getText().equalsIgnoreCase("")){
-             number1 = Double.parseDouble(textField.getText());
-             textField.setText(clearText);
+            if (!textField.getText().equalsIgnoreCase("")) {
+                number1 = Double.parseDouble(textField.getText());
+                textField.setText(clearText);
             }
 
         });
 
         minus.setOnAction(event -> {
             operator = '-';
-            if(!textField.getText().equalsIgnoreCase("")) {
+            if (!textField.getText().equalsIgnoreCase("")) {
                 number1 = Double.parseDouble(textField.getText());
                 textField.setText(clearText);
             }
@@ -101,24 +114,24 @@ public class CalculatorController implements Initializable  {
 
         divide.setOnAction(event -> {
             operator = '/';
-            if(!textField.getText().equalsIgnoreCase("")){
-             number1 = Double.parseDouble(textField.getText());
-             textField.setText(clearText);
+            if (!textField.getText().equalsIgnoreCase("")) {
+                number1 = Double.parseDouble(textField.getText());
+                textField.setText(clearText);
             }
 
         });
 
         multiply.setOnAction(event -> {
             operator = '*';
-            if(!textField.getText().equalsIgnoreCase("")){
-              number1 = Double.parseDouble(textField.getText());
-              textField.setText(clearText);
+            if (!textField.getText().equalsIgnoreCase("")) {
+                number1 = Double.parseDouble(textField.getText());
+                textField.setText(clearText);
             }
         });
 
         percent.setOnAction(event -> {
             operator = '%';
-            if(!textField.getText().equalsIgnoreCase("")){
+            if (!textField.getText().equalsIgnoreCase("")) {
                 number1 = Double.parseDouble(textField.getText());
                 number1 /= 100;
                 textField.setText(Double.toString(number1));
@@ -127,52 +140,55 @@ public class CalculatorController implements Initializable  {
 
     }
 
+    /*
+
+     */
     private void evaluate(Button equal) {
-       equal.setOnAction(event -> {
-           if (number1 != null && !textField.getText().equalsIgnoreCase("")) {
+        equal.setOnAction(event -> {
+            if (number1 != null && !textField.getText().equalsIgnoreCase("")) {
                 switch (operator) {
                     case '/' -> {
-                        if(number1.equals(solution) && textField.getText().equalsIgnoreCase(String.valueOf(solution))){
+                        if (number1.equals(solution) && textField.getText().equals(String.valueOf(solution))) {
                             number2 = temp;
-                        }else {
-                            number2 = Double.parseDouble(textField.getText());}
-                       // number2 = Double.parseDouble(textField.getText());
+                        } else {
+                            number2 = Double.parseDouble(textField.getText());
+                        }
                         textField.setText(clearText);
                         solution = number1 / number2;
                     }
                     case '+' -> {
-                        if(number1.equals(solution) && textField.getText().equalsIgnoreCase(String.valueOf(solution))){
+                        if (number1.equals(solution) && textField.getText().equals(String.valueOf(solution))) {
                             number2 = temp;
-                        }else {
+                        } else {
                             number2 = Double.parseDouble(textField.getText());
                         }
                         textField.setText(clearText);
                         solution = number1 + number2;
                     }
                     case '-' -> {
-                        if(number1.equals(solution) && textField.getText().equalsIgnoreCase(String.valueOf(solution))){
+                        if (number1.equals(solution) && textField.getText().equals(String.valueOf(solution))) {
                             number2 = temp;
-                        }else {
+                        } else {
                             number2 = Double.parseDouble(textField.getText());
                         }
                         textField.setText(clearText);
                         solution = number1 - number2;
                     }
                     case '*' -> {
-                        if(number1.equals(solution) && textField.getText().equalsIgnoreCase(String.valueOf(solution))){
+                        if (number1.equals(solution) && textField.getText().equals(String.valueOf(solution))) {
                             number2 = temp;
-                        }else {
-                            number2 = Double.parseDouble(textField.getText());}
-
+                        } else {
+                            number2 = Double.parseDouble(textField.getText());
+                        }
                         textField.setText(clearText);
                         solution = number1 * number2;
                     }
                 }
-                  temp = number2;
-                   number1 = solution;
-                   textField.setText(String.valueOf(solution));
+                temp = number2;
+                number1 = solution;
+                textField.setText(String.valueOf(solution));
             }
-            });
+        });
     }
 }
 
